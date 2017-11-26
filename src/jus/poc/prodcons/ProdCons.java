@@ -23,6 +23,7 @@ public class ProdCons implements Tampon {
 	@Override
 	public int taille() {
 		// TODO Auto-generated method stub
+		//
 		return 0;
 	}
 
