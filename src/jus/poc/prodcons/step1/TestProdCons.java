@@ -11,19 +11,19 @@ public class TestProdCons extends Simulateur {
 
 	protected void run() throws Exception {
 		// le corps de votre programme principal
+		String filename = "option.xml";
+		init("jus/poc/prodcons/options/" + filename);
 	}
 	
 	/**
 	 * Fonction qui initialise le fichier xml d'option
 	 * @param path Chemin vers le fichier
 	 */
-	private static void init(String path){
+	protected void init(String path){
 		
 	}
 
 	public static void main(String[] args) {
 		new TestProdCons(new Observateur()).start();
-		String filename = "option.x";
-		init("jus/poc/prodcons/option/" + filename);
 	}
 }
