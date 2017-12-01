@@ -1,4 +1,9 @@
-package jus.poc.prodcons;
+package jus.poc.prodcons.step2;
+
+import jus.poc.prodcons.Acteur;
+import jus.poc.prodcons.ControlException;
+import jus.poc.prodcons.Observateur;
+import jus.poc.prodcons._Consommateur;
 
 public class Consommateur extends Acteur implements _Consommateur {
 

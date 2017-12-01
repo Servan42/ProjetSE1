@@ -1,8 +1,15 @@
-package jus.poc.prodcons;
+package jus.poc.prodcons.step4;
 
-public class Consommateur extends Acteur implements _Consommateur {
+import jus.poc.prodcons.Acteur;
+import jus.poc.prodcons.ControlException;
+import jus.poc.prodcons.Observateur;
+import jus.poc.prodcons._Producteur;
 
-	protected Consommateur(int type, Observateur observateur, int moyenneTempsDeTraitement,
+public class Producteur extends Acteur implements _Producteur {
+
+
+
+	protected Producteur(int type, Observateur observateur, int moyenneTempsDeTraitement,
 			int deviationTempsDeTraitement) throws ControlException {
 		super(type, observateur, moyenneTempsDeTraitement, deviationTempsDeTraitement);
 		// TODO Auto-generated constructor stub
@@ -17,5 +24,7 @@ public class Consommateur extends Acteur implements _Consommateur {
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
+
 	}
+
 }

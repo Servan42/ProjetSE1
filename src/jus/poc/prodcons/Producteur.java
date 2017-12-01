@@ -1,23 +1,13 @@
 package jus.poc.prodcons;
 
-public class Producteur implements _Producteur {
+public class Producteur extends Acteur implements _Producteur {
 
-	@Override
-	public int deviationTempsDeTraitement() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
-	@Override
-	public int identification() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
-	@Override
-	public int moyenneTempsDeTraitement() {
-		// TODO Auto-generated method stub
-		return 0;
+	protected Producteur(int type, Observateur observateur, int moyenneTempsDeTraitement,
+			int deviationTempsDeTraitement) throws ControlException {
+		super(type, observateur, moyenneTempsDeTraitement, deviationTempsDeTraitement);
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
