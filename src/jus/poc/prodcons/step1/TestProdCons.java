@@ -32,6 +32,7 @@ public class TestProdCons extends Simulateur {
 	protected void run() throws Exception {
 		String filename = "option.xml";
 		init("jus/poc/prodcons/option/" + filename);
+		printAtr();
 	}
 
 	/**
@@ -67,6 +68,23 @@ public class TestProdCons extends Simulateur {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	/**
+	 * Affiche la valeur de tous les attirbuts de la classe.
+	 */
+	private void printAtr(){
+		System.out.println("nbProd :" + nbProd);
+		System.out.println("nbCons :" + nbCons);
+		System.out.println("nbBuffer :" + nbBuffer);
+		System.out.println("tempsMoyenProduction :" + tempsMoyenProduction );
+		System.out.println("deviationTempsMoyenProduction :" + deviationTempsMoyenProduction);
+		System.out.println("tempsMoyenConsommation :" + tempsMoyenConsommation);
+		System.out.println("deviationTempsMoyenConsommation :" + deviationTempsMoyenConsommation);
+		System.out.println("nombreMoyenDeProduction :" + nombreMoyenDeProduction);
+		System.out.println("deviationNombreMoyenDeProduction :" + deviationNombreMoyenDeProduction);
+		System.out.println("nombreMoyenNbExemplaire :" + nombreMoyenNbExemplaire);
+		System.out.println("deviationNombreMoyenNbExemplaire :" + deviationNombreMoyenNbExemplaire);
 	}
 
 	public static void main(String[] args) {
