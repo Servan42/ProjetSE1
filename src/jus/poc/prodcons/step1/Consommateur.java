@@ -20,6 +20,6 @@ public class Consommateur extends Acteur implements _Consommateur {
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stubb
 	}
 }
