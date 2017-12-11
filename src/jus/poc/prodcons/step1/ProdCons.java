@@ -18,11 +18,11 @@ import jus.poc.prodcons._Producteur;
  */
 
 public class ProdCons implements Tampon {
-
+	
 	private int buffSize;
 	private MessageX[] buffer;
-
-	public ProdCons(int size) {
+	
+	public ProdCons(int size){
 		buffSize = size;
 		buffer = new MessageX[buffSize];
 	}
@@ -43,8 +43,10 @@ public class ProdCons implements Tampon {
 
 	@Override
 	public void put(_Producteur arg0, Message arg1) throws Exception, InterruptedException {
-		// TODO Auto-generated method stub
-
+		synchronized(this) {
+			while(!(buffer.length < buffSize)) wait();
+			((MessageX)arg1).setTime();
+		}
 	}
 
 	@Override
