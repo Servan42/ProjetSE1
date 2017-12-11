@@ -8,8 +8,9 @@ import jus.poc.prodcons._Consommateur;
 import jus.poc.prodcons._Producteur;
 
 public class ProdCons implements Tampon {
-	int buffSize;
-	MessageX[] buffer;
+	
+	private int buffSize;
+	private MessageX[] buffer;
 	
 	public ProdCons(int size){
 		buffSize = size;
@@ -29,8 +30,9 @@ public class ProdCons implements Tampon {
 
 	@Override
 	public void put(_Producteur arg0, Message arg1) throws Exception, InterruptedException {
-		// TODO Auto-generated method stub
-		
+		synchronized(this) {
+			
+		}
 	}
 
 	@Override
