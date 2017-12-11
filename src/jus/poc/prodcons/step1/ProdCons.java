@@ -40,7 +40,12 @@ public class ProdCons implements Tampon {
 	public void put(_Producteur arg0, Message arg1) throws Exception, InterruptedException {
 		synchronized(this) {
 			int i = 0;
-			while(!(buffer.length < buffSize)) wait();
+			while(!(buffer.length < buffSize)) 
+				try{
+					wait();
+				} catch(Exception e) {
+					System.out.println("Fonction get " + e.toString());
+				}
 			((MessageX)arg1).setTime();
 			while(i<buffSize && buffer[i] == null) i++;
 			if(i<buffSize) buffer[i] = (MessageX)arg1;
