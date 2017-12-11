@@ -7,6 +7,14 @@ import jus.poc.prodcons._Producteur;
 
 public class ProdCons implements Tampon {
 
+	private MessageX[] buffer;
+	private int buffsize;
+
+	public ProdCons(int buffsize) {
+		this.buffsize = buffsize;
+		buffer = new MessageX[buffsize];
+	}
+
 	@Override
 	public int enAttente() {
 		// TODO Auto-generated method stub
@@ -28,7 +36,7 @@ public class ProdCons implements Tampon {
 	@Override
 	public int taille() {
 		// TODO Auto-generated method stub
-		
+
 		return 0;
 	}
 
