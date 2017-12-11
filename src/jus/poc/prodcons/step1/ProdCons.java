@@ -45,7 +45,7 @@ public class ProdCons implements Tampon {
 			try {
 				wait();
 			} catch (Exception e) {
-				System.out.println(e.toString());
+				System.out.println("Fonction get " + e.toString() + " consommateur " + arg0.identification());
 			}
 		}
 		for(int i = 0; i < buffSize; i++){
@@ -67,7 +67,7 @@ public class ProdCons implements Tampon {
 			try{
 				wait();
 			} catch(Exception e) {
-				System.out.println("Fonction get " + e.toString());
+				System.out.println("Fonction put " + e.toString() + " producteur " + arg0.identification());
 			}
 			
 		while(i<buffSize && buffer[i] != null) i++;
