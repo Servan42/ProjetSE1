@@ -43,8 +43,20 @@ public class Producteur extends Acteur implements _Producteur {
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-
+		for (int i = 0; i < NbMessages; i++) {
+			try {
+				TestProdCons.tampon.put(this, Messages[i]);
+			} catch (InterruptedException e) {
+				System.out.println(e.toString());
+			} catch (Exception e) {
+				System.out.println(e.toString());
+			}
+			try {
+				sleep((long) (moyenneTempsDeTraitement - deviationTempsDeTraitement + 1 + Math.random()*2*deviationTempsDeTraitement));
+			} catch (InterruptedException e) {
+				System.out.println(e.toString());
+			}
+		}
 	}
 
 }
