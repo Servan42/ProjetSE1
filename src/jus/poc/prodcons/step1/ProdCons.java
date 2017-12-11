@@ -47,9 +47,10 @@ public class ProdCons implements Tampon {
 					System.out.println("Fonction get " + e.toString());
 				}
 			((MessageX)arg1).setTime();
-			while(i<buffSize && buffer[i] == null) i++;
+			while(i<buffSize && buffer[i] != null) i++;
 			if(i<buffSize) buffer[i] = (MessageX)arg1;
 			else throw new Exception("Tentative de put buffer plein");
+			notifyAll();
 		}
 	}
 
