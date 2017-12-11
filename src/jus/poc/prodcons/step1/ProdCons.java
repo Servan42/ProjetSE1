@@ -23,15 +23,41 @@ public class ProdCons implements Tampon {
 		buffer = new MessageX[buffSize];
 	}
 
+	
+	/**
+	 * @return Nombre de message en attente de consommation (nombre de cases utilisées dans le tableau) 
+	 */
 	@Override
 	public int enAttente() {
-		return buffer.length;
+		int messages = 0;
+		for (int i = 0; i < buffSize; i++) {
+			if(buffer[i] != null) messages++;
+		}
+		return messages;
 	}
 
 	@Override
-	public Message get(_Consommateur arg0) throws Exception, InterruptedException {
-
-		return null;
+	public synchronized Message get(_Consommateur arg0) throws Exception, InterruptedException {
+		long maxTime = 0;
+		int maxId = 0;
+		MessageX retour;
+		while (!(enAttente() > 0)) {
+			try {
+				wait();
+			} catch (Exception e) {
+				System.out.println(e.toString());
+			}
+		}
+		for(int i = 0; i < buffSize; i++){
+			if(buffer[i].getTime() > maxTime){
+				maxTime = buffer[i].getTime();
+				maxId = i;
+			}
+		}
+		retour = buffer[maxId];
+		buffer[maxId] = null;
+		notifyAll();
+		return retour;
 	}
 
 	@Override
