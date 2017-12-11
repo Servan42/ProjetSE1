@@ -39,8 +39,12 @@ public class ProdCons implements Tampon {
 	@Override
 	public void put(_Producteur arg0, Message arg1) throws Exception, InterruptedException {
 		synchronized(this) {
+			int i = 0;
 			while(!(buffer.length < buffSize)) wait();
 			((MessageX)arg1).setTime();
+			while(i<buffSize && buffer[i] == null) i++;
+			if(i<buffSize) buffer[i] = (MessageX)arg1;
+			else throw new Exception("Tentative de put buffer plein");
 		}
 	}
 
