@@ -7,6 +7,14 @@ import jus.poc.prodcons.Tampon;
 import jus.poc.prodcons._Consommateur;
 import jus.poc.prodcons._Producteur;
 
+/**
+ * Tableau de garde-action 
+ *	Methode | Garde 					| Action
+ *	--------|---------------------------|------------------
+ *	get 	| buffer.length > 0 		| return message, vider cette case du buffer
+ *	put 	| buffer.length < buffsize 	| remplir une case du buffer
+ */
+
 public class ProdCons implements Tampon {
 	
 	private int buffSize;
@@ -16,7 +24,7 @@ public class ProdCons implements Tampon {
 		buffSize = size;
 		buffer = new MessageX[buffSize];
 	}
-	
+
 	@Override
 	public int enAttente() {
 		return buffer.length;
@@ -24,14 +32,15 @@ public class ProdCons implements Tampon {
 
 	@Override
 	public Message get(_Consommateur arg0) throws Exception, InterruptedException {
-		
+
 		return null;
 	}
 
 	@Override
 	public void put(_Producteur arg0, Message arg1) throws Exception, InterruptedException {
 		synchronized(this) {
-			
+			while(!(buffer.length < buffSize)) wait();
+			((MessageX)arg1).setTime();
 		}
 	}
 
