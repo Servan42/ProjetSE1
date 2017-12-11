@@ -40,7 +40,7 @@ public class ProdCons implements Tampon {
 	public void put(_Producteur arg0, Message arg1) throws Exception, InterruptedException {
 		synchronized(this) {
 			int i = 0;
-			while(!(buffer.length < buffSize)) 
+			while(!(enAttente() < buffSize)) 
 				try{
 					wait();
 				} catch(Exception e) {
