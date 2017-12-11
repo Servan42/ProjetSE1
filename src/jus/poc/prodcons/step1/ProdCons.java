@@ -2,6 +2,8 @@ package jus.poc.prodcons.step1;
 
 import java.util.ArrayList;
 
+import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
+
 import jus.poc.prodcons.Message;
 import jus.poc.prodcons.Tampon;
 import jus.poc.prodcons._Consommateur;
@@ -31,8 +33,11 @@ public class ProdCons implements Tampon {
 	}
 
 	@Override
-	public Message get(_Consommateur arg0) throws Exception, InterruptedException {
-
+	public synchronized Message get(_Consommateur arg0) throws Exception, InterruptedException {
+		while(!(buffer.length > 0)){
+			wait();
+		}
+		buffer.
 		return null;
 	}
 
