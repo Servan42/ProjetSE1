@@ -1,7 +1,5 @@
 package jus.poc.prodcons.step1;
 
-import java.util.ArrayList;
-
 import jus.poc.prodcons.Message;
 import jus.poc.prodcons.Tampon;
 import jus.poc.prodcons._Consommateur;
@@ -37,21 +35,22 @@ public class ProdCons implements Tampon {
 	}
 
 	@Override
-	public void put(_Producteur arg0, Message arg1) throws Exception, InterruptedException {
-		synchronized(this) {
-			int i = 0;
-			while(!(enAttente() < buffSize)) 
-				try{
-					wait();
-				} catch(Exception e) {
-					System.out.println("Fonction get " + e.toString());
-				}
+	public synchronized void put(_Producteur arg0, Message arg1) throws Exception, InterruptedException {
+		int i = 0;
+		while(!(enAttente() < buffSize)) 
+			try{
+				wait();
+			} catch(Exception e) {
+				System.out.println("Fonction get " + e.toString());
+			}
+			
+		while(i<buffSize && buffer[i] != null) i++;
+			
+		if(i<buffSize) { 
 			((MessageX)arg1).setTime();
-			while(i<buffSize && buffer[i] != null) i++;
-			if(i<buffSize) buffer[i] = (MessageX)arg1;
-			else throw new Exception("Tentative de put buffer plein");
-			notifyAll();
-		}
+			buffer[i] = (MessageX)arg1;
+		} else throw new Exception("Tentative de put buffer plein");
+		notifyAll();
 	}
 
 	@Override
