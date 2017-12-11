@@ -27,7 +27,7 @@ public class Producteur extends Acteur implements _Producteur {
 	 */
 	private void initMessages(MessageX[] Messages) {
 		for (int i = 0; i < NbMessages; i++) {
-			Messages[i] = new MessageX(super.identification(), i);
+			Messages[i] = new MessageX(identification(), i);
 		}
 	}
 

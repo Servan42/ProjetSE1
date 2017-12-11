@@ -22,6 +22,8 @@ public class TestProdCons extends Simulateur {
 	int nombreMoyenNbExemplaire;
 	int deviationNombreMoyenNbExemplaire;
 
+	static ProdCons tampon;
+	
 	public TestProdCons(Observateur observateur) {
 		super(observateur);
 	}
@@ -32,6 +34,7 @@ public class TestProdCons extends Simulateur {
 	protected void run() throws Exception {
 		String filename = "option.xml";
 		init("jus/poc/prodcons/option/" + filename);
+		tampon = new ProdCons(nbBuffer);
 		printAtr();
 	}
 
