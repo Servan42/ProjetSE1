@@ -15,7 +15,7 @@ public class MessageX implements Message {
 	}
 	
 	public String toString() {
-		return "Message " + nb + " from producteur " + id + "at time " + Tput;
+		return "Message " + nb + " from producteur " + id + " at time " + Tput;
 	}
 	
 	public void setTime() {
