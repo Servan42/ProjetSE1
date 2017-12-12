@@ -35,6 +35,14 @@ public class TestProdCons extends Simulateur {
 		String filename = "option.xml";
 		init("jus/poc/prodcons/option/" + filename);
 		tampon = new ProdCons(nbBuffer);
+
+		for(int i=0; i<Math.max(nbProd, nbCons); i++) {
+			if(i < nbProd)
+				new Producteur(tampon, observateur, tempsMoyenProduction, deviationTempsMoyenProduction, nombreMoyenDeProduction, deviationNombreMoyenDeProduction).start();
+			if(i < nbCons)
+				new Consommateur(tampon, observateur, tempsMoyenConsommation, deviationTempsMoyenConsommation).start();
+		}
+
 		printAtr();
 	}
 
