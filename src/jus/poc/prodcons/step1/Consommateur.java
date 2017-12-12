@@ -32,7 +32,7 @@ public class Consommateur extends Acteur implements _Consommateur {
 	public void run() {
 		while(true) {
 			try {
-				System.out.println("Consommateur " + identification() + " lis " + tampon.get(this).toString());
+				System.out.println("Consommateur " + identification() + " lis {" + tampon.get(this).toString()+"}");
 			} catch(Exception e) {
 				System.out.println("Consommateur " + identification() + " " + e.toString());
 			}
