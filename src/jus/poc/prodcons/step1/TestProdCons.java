@@ -43,7 +43,7 @@ public class TestProdCons extends Simulateur {
 				new Consommateur(tampon, observateur, tempsMoyenConsommation, deviationTempsMoyenConsommation).start();
 		}
 
-		printAtr();
+		//printAtr();
 	}
 
 	/**
@@ -100,6 +100,5 @@ public class TestProdCons extends Simulateur {
 
 	public static void main(String[] args) {
 		new TestProdCons(new Observateur()).start();
-		System.out.println("End");
 	}
 }
