@@ -9,11 +9,23 @@ public class Producteur extends Acteur implements _Producteur {
 
 	private int NbMessages;
 	private MessageX[] Messages;
+	private ProdCons tampon;
+	
 
 	protected Producteur(int type, Observateur observateur, int moyenneTempsDeTraitement,
 			int deviationTempsDeTraitement) throws ControlException {
 		super(type, observateur, moyenneTempsDeTraitement, deviationTempsDeTraitement);
 		NbMessages = (int) Math.random() * 10 + 11;
+		Messages = new MessageX[NbMessages];
+		initMessages(Messages);
+		System.out.println("L'ancien constructeur de Producteur à été utilisé");
+	}
+	
+	protected Producteur(ProdCons tampon, Observateur observateur, int moyenneTempsDeTraitement,
+			int deviationTempsDeTraitement, int nbMoyenProduction, int deviationNbMoyenProduction) throws ControlException {
+		super(Acteur.typeProducteur, observateur, moyenneTempsDeTraitement, deviationTempsDeTraitement);
+		this.tampon = tampon;
+		NbMessages = (int)(nbMoyenProduction - deviationNbMoyenProduction +1 +Math.random()*2*deviationNbMoyenProduction);
 		Messages = new MessageX[NbMessages];
 		initMessages(Messages);
 	}
@@ -45,7 +57,7 @@ public class Producteur extends Acteur implements _Producteur {
 	public void run() {
 		for (int i = 0; i < NbMessages; i++) {
 			try {
-				TestProdCons.tampon.put(this, Messages[i]);
+				tampon.put(this, Messages[i]);
 			} catch (InterruptedException e) {
 				System.out.println(e.toString());
 			} catch (Exception e) {
