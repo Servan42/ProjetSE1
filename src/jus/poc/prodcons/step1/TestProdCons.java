@@ -22,7 +22,11 @@ public class TestProdCons extends Simulateur {
 	int nombreMoyenNbExemplaire;
 	int deviationNombreMoyenNbExemplaire;
 
-	static ProdCons tampon;
+	ProdCons tampon;
+	int nbMsg;
+	Producteur Prod[];
+	Consommateur Cons[];
+	int nbConsommes = 0;
 	
 	public TestProdCons(Observateur observateur) {
 		super(observateur);
@@ -35,15 +39,24 @@ public class TestProdCons extends Simulateur {
 		String filename = "option.xml";
 		init("jus/poc/prodcons/option/" + filename);
 		tampon = new ProdCons(nbBuffer);
+		Prod = new Producteur[nbProd];
+		Cons = new Consommateur[nbCons];
 
 		for(int i=0; i<Math.max(nbProd, nbCons); i++) {
-			if(i < nbProd)
-				new Producteur(tampon, observateur, tempsMoyenProduction, deviationTempsMoyenProduction, nombreMoyenDeProduction, deviationNombreMoyenDeProduction).start();
-			if(i < nbCons)
-				new Consommateur(tampon, observateur, tempsMoyenConsommation, deviationTempsMoyenConsommation).start();
+			if(i < nbProd) {
+				Prod[i] = new Producteur(tampon, observateur, tempsMoyenProduction, deviationTempsMoyenProduction, nombreMoyenDeProduction, deviationNombreMoyenDeProduction);
+				nbMsg += Prod[i].nombreDeMessages();
+				Prod[i].start();
+			}
+			if(i < nbCons) {
+				Cons[i] = new Consommateur(tampon, observateur, tempsMoyenConsommation, deviationTempsMoyenConsommation);
+				Cons[i].start();
+			}
 		}
 
 //		printAtr();
+		
+		end();
 	}
 
 	/**
@@ -96,6 +109,21 @@ public class TestProdCons extends Simulateur {
 		System.out.println("deviationNombreMoyenDeProduction :" + deviationNombreMoyenDeProduction);
 		System.out.println("nombreMoyenNbExemplaire :" + nombreMoyenNbExemplaire);
 		System.out.println("deviationNombreMoyenNbExemplaire :" + deviationNombreMoyenNbExemplaire);
+	}
+	
+	private synchronized void end() {
+		int nbC = 0;
+		while(nbC < nbMsg) {
+			nbC = 0;
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				System.out.println(e.toString());
+			}
+
+			for(int i=0; i<Cons.length; i++)
+				nbC += Cons[i].nombreDeMessages();
+		}
 	}
 
 	public static void main(String[] args) {
