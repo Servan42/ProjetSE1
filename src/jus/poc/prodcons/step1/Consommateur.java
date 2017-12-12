@@ -6,11 +6,20 @@ import jus.poc.prodcons.Observateur;
 import jus.poc.prodcons._Consommateur;
 
 public class Consommateur extends Acteur implements _Consommateur {
-	int nbMsgLus = 0;
+	private int nbMsgLus = 0;
+	private ProdCons tampon;
 	
 	protected Consommateur(int type, Observateur observateur, int moyenneTempsDeTraitement,
 			int deviationTempsDeTraitement) throws ControlException {
 		super(type, observateur, moyenneTempsDeTraitement, deviationTempsDeTraitement);
+		System.out.println("L'ancien constructeur de consommateur a ete utilise");
+		this.setDaemon(true);
+	}
+	
+	protected Consommateur(ProdCons tampon, Observateur observateur, int moyenneTempsDeTraitement,
+			int deviationTempsDeTraitement) throws ControlException {
+		super(Acteur.typeConsommateur, observateur, moyenneTempsDeTraitement, deviationTempsDeTraitement);
+		this.tampon = tampon;
 		this.setDaemon(true);
 	}
 
@@ -23,7 +32,7 @@ public class Consommateur extends Acteur implements _Consommateur {
 	public void run() {
 		while(true) {
 			try {
-				System.out.println("Consommateur " + identification() + " lis " + TestProdCons.tampon.get(this).toString());
+				System.out.println("Consommateur " + identification() + " lis " + tampon.get(this).toString());
 			} catch(Exception e) {
 				System.out.println("Consommateur " + identification() + " " + e.toString());
 			}
