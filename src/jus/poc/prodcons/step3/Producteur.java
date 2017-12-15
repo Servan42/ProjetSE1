@@ -56,15 +56,17 @@ public class Producteur extends Acteur implements _Producteur {
 	public void run() {
 		for (int i = 0; i < NbMessages; i++) {
 			try {
+				System.out.println("Producteur " + identification() + " production message " + (i+1));
+				sleep((long) (moyenneTempsDeTraitement - deviationTempsDeTraitement + 1 + Math.random()*2*deviationTempsDeTraitement));
+			} catch (InterruptedException e) {
+				System.out.println(e.toString());
+			}
+
+			try {
 				tampon.put(this, Messages[i]);
 			} catch (InterruptedException e) {
 				System.out.println(e.toString());
 			} catch (Exception e) {
-				System.out.println(e.toString());
-			}
-			try {
-				sleep((long) (moyenneTempsDeTraitement - deviationTempsDeTraitement + 1 + Math.random()*2*deviationTempsDeTraitement));
-			} catch (InterruptedException e) {
 				System.out.println(e.toString());
 			}
 		}
