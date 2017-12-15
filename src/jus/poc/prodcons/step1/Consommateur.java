@@ -45,9 +45,10 @@ public class Consommateur extends Acteur implements _Consommateur {
 			
 			System.out.println("Consommateur " + identification() + " fin consommation");
 			nbMsgLus++;
-			synchronized(this) {
-				notifyAll();
-			}
+//			synchronized(this) {
+//				System.out.println("POOOOOOOOOOOOOOOOOO");
+//				notifyAll();
+//			}
 		}
 	}
 }

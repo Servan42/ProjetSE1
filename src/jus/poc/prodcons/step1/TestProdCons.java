@@ -55,7 +55,6 @@ public class TestProdCons extends Simulateur {
 		}
 
 //		printAtr();
-		
 		end();
 	}
 
@@ -115,15 +114,20 @@ public class TestProdCons extends Simulateur {
 		int nbC = 0;
 		while(nbC < nbMsg) {
 			nbC = 0;
-			try {
-				wait();
-			} catch (InterruptedException e) {
-				System.out.println(e.toString());
-			}
+			
+//			try {
+//				System.out.println(" nbC " + nbC + ", nbM " + nbMsg);
+//				wait();
+//
+//			} catch (InterruptedException e) {
+//				System.out.println(e.toString());
+//			}
 
 			for(int i=0; i<Cons.length; i++)
 				nbC += Cons[i].nombreDeMessages();
+			
 		}
+		
 	}
 
 	public static void main(String[] args) {
