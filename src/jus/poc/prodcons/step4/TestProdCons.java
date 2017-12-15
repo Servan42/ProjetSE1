@@ -47,7 +47,7 @@ public class TestProdCons extends Simulateur {
 
 		for(int i=0; i<Math.max(nbProd, nbCons); i++) {
 			if(i < nbProd) {
-				Prod[i] = new Producteur(tampon, observateur, tempsMoyenProduction, deviationTempsMoyenProduction, nombreMoyenDeProduction, deviationNombreMoyenDeProduction);
+				Prod[i] = new Producteur(tampon, observateur, tempsMoyenProduction, deviationTempsMoyenProduction, nombreMoyenDeProduction, deviationNombreMoyenDeProduction, nombreMoyenNbExemplaire, deviationNombreMoyenNbExemplaire);
 				observateur.newProducteur(Prod[i]);
 				nbMsg += Prod[i].nombreDeMessages();
 				Prod[i].start();
