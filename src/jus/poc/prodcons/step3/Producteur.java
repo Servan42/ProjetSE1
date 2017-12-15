@@ -59,8 +59,10 @@ public class Producteur extends Acteur implements _Producteur {
 		for (int i = 0; i < NbMessages; i++) {
 			
 			try {
+				System.out.println("Producteur " + identification() + " production message " + (i+1));
 				productionDelay = moyenneTempsDeTraitement - deviationTempsDeTraitement + 1 + Math.random()*2*deviationTempsDeTraitement;
 				sleep((long) productionDelay);
+
 			} catch (InterruptedException e) {
 				System.out.println(e.toString());
 			}
