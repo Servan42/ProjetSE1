@@ -57,7 +57,7 @@ public class Producteur extends Acteur implements _Producteur {
 	@Override
 	public void run() {
 		for (int i = 0; i < NbMessages; i++) {
-			
+
 			try {
 				System.out.println("Producteur " + identification() + " production message " + (i+1));
 				productionDelay = moyenneTempsDeTraitement - deviationTempsDeTraitement + 1 + Math.random()*2*deviationTempsDeTraitement;
@@ -71,7 +71,7 @@ public class Producteur extends Acteur implements _Producteur {
 			} catch (ControlException e) {
 				System.out.println(e.toString());
 			}
-			
+
 			try {
 				tampon.put(this, Messages[i]);
 				observateur.depotMessage(this, Messages[i]);

@@ -40,7 +40,7 @@ public class TestProdCons extends Simulateur {
 		String filename = "option.xml";
 		init("jus/poc/prodcons/option/" + filename);
 		observateur.init(nbProd,nbCons,nbBuffer);
-		
+
 		tampon = new ProdCons(nbBuffer);
 		Prod = new Producteur[nbProd];
 		Cons = new Consommateur[nbCons];
