@@ -1,4 +1,4 @@
-package jus.poc.prodcons.step2;
+package jus.poc.prodcons.step3;
 
 import jus.poc.prodcons.Acteur;
 import jus.poc.prodcons.ControlException;
