@@ -39,12 +39,6 @@ public class TestProdCons extends Simulateur {
 	protected void run() throws Exception {
 		String filename = "option.xml";
 		init("jus/poc/prodcons/option/" + filename);
-		nbBuffer = 5;
-		nombreMoyenNbExemplaire = 2;
-		deviationNombreMoyenNbExemplaire = 0;
-		nbProd = 1;
-		nbCons = 1;
-		
 		if(nombreMoyenNbExemplaire + deviationNombreMoyenNbExemplaire > nbCons){
 			throw new Exception("Plus d'exemplaires que de consommateurs.");
 		}

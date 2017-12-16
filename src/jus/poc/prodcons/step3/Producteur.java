@@ -26,7 +26,7 @@ public class Producteur extends Acteur implements _Producteur {
 			int deviationTempsDeTraitement, int nbMoyenProduction, int deviationNbMoyenProduction) throws ControlException {
 		super(Acteur.typeProducteur, observateur, moyenneTempsDeTraitement, deviationTempsDeTraitement);
 		this.tampon = tampon;
-		NbMessages = (int)(nbMoyenProduction - deviationNbMoyenProduction +1 +Math.random()*2*deviationNbMoyenProduction);
+		NbMessages = (int)(nbMoyenProduction - deviationNbMoyenProduction + Math.random()*(2*deviationNbMoyenProduction+1));
 		Messages = new MessageX[NbMessages];
 		initMessages(Messages);
 	}
@@ -60,7 +60,7 @@ public class Producteur extends Acteur implements _Producteur {
 
 			try {
 				System.out.println("Producteur " + identification() + " production message " + (i+1));
-				productionDelay = moyenneTempsDeTraitement - deviationTempsDeTraitement + 1 + Math.random()*2*deviationTempsDeTraitement;
+				productionDelay = moyenneTempsDeTraitement - deviationTempsDeTraitement + Math.random()*(2*deviationTempsDeTraitement+1);
 				sleep((long) productionDelay);
 
 			} catch (InterruptedException e) {
