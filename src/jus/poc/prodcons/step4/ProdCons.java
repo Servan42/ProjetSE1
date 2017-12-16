@@ -93,6 +93,10 @@ public class ProdCons implements Tampon {
 			notifyAll();
 		}
 		put.release();
+		synchronized(this) {
+			while(buffer[i] != null)
+				wait();
+		}
 	}
 
 	@Override
