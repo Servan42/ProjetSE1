@@ -58,10 +58,20 @@ public class MessageX implements Message {
 		return Tput;
 	}
 	
+	/**
+	 * Getter de id
+	 * 
+	 * @return Identifiant du Producteur
+	 */
 	public int getId() {
 		return id;
 	}
-	
+
+	/**
+	 * Getter de nb
+	 * 
+	 * @return Le numero du message
+	 */
 	public int getNb() {
 		return nb;
 	}
