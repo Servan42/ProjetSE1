@@ -43,7 +43,7 @@ public class Consommateur extends Acteur implements _Consommateur {
 			}
 			
 			try {
-				productionDelay = moyenneTempsDeTraitement - deviationTempsDeTraitement + 1 + Math.random()*2*deviationTempsDeTraitement;
+				productionDelay = moyenneTempsDeTraitement - deviationTempsDeTraitement + Math.random()*(2*deviationTempsDeTraitement+1);
 				sleep((long) productionDelay);
 				observateur.consommationMessage(this, messageRetire, (int) productionDelay);
 			} catch (Exception e) {
