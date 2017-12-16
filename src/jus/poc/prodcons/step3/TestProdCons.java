@@ -8,6 +8,13 @@ import java.util.Properties;
 import jus.poc.prodcons.Observateur;
 import jus.poc.prodcons.Simulateur;
 
+/**
+ * Classe priciplale du programme, qui lis le fichier XML et lance la
+ * simulation.
+ * 
+ * @author CHANET CHARLOT
+ *
+ */
 public class TestProdCons extends Simulateur {
 
 	int nbProd;
@@ -27,39 +34,48 @@ public class TestProdCons extends Simulateur {
 	Producteur Prod[];
 	Consommateur Cons[];
 	int nbConsommes = 0;
-	
+
+	/**
+	 * Constructeur de TestProdCons
+	 * 
+	 * @param observateur
+	 *            Observateur du programme
+	 */
 	public TestProdCons(Observateur observateur) {
 		super(observateur);
-		
+
 	}
 
 	/**
-	 * Corps du programme principal
+	 * Corps du programme principal. Initialise le fichier XML et execute les
+	 * Producteurs et Consommateurs, puis test la condition de fin.
 	 */
 	protected void run() throws Exception {
 		String filename = "option.xml";
 		init("jus/poc/prodcons/option/" + filename);
-		observateur.init(nbProd,nbCons,nbBuffer);
-		
+		observateur.init(nbProd, nbCons, nbBuffer);
+
 		tampon = new ProdCons(nbBuffer);
 		Prod = new Producteur[nbProd];
 		Cons = new Consommateur[nbCons];
 
-		for(int i=0; i<Math.max(nbProd, nbCons); i++) {
-			if(i < nbProd) {
-				Prod[i] = new Producteur(tampon, observateur, tempsMoyenProduction, deviationTempsMoyenProduction, nombreMoyenDeProduction, deviationNombreMoyenDeProduction);
+		for (int i = 0; i < Math.max(nbProd, nbCons); i++) {
+			if (i < nbProd) {
+				Prod[i] = new Producteur(tampon, observateur, tempsMoyenProduction, deviationTempsMoyenProduction,
+						nombreMoyenDeProduction, deviationNombreMoyenDeProduction);
 				observateur.newProducteur(Prod[i]);
 				nbMsg += Prod[i].nombreDeMessages();
 				Prod[i].start();
 			}
-			if(i < nbCons) {
-				Cons[i] = new Consommateur(tampon, observateur, tempsMoyenConsommation, deviationTempsMoyenConsommation);
+			if (i < nbCons) {
+				Cons[i] = new Consommateur(tampon, observateur, tempsMoyenConsommation,
+						deviationTempsMoyenConsommation);
 				observateur.newConsommateur(Cons[i]);
 				Cons[i].start();
 			}
 		}
 
-//		printAtr();
+		// printAtr();
 		end();
 	}
 
@@ -101,11 +117,11 @@ public class TestProdCons extends Simulateur {
 	/**
 	 * Affiche la valeur de tous les attirbuts de la classe.
 	 */
-	private void printAtr(){
+	private void printAtr() {
 		System.out.println("nbProd :" + nbProd);
 		System.out.println("nbCons :" + nbCons);
 		System.out.println("nbBuffer :" + nbBuffer);
-		System.out.println("tempsMoyenProduction :" + tempsMoyenProduction );
+		System.out.println("tempsMoyenProduction :" + tempsMoyenProduction);
 		System.out.println("deviationTempsMoyenProduction :" + deviationTempsMoyenProduction);
 		System.out.println("tempsMoyenConsommation :" + tempsMoyenConsommation);
 		System.out.println("deviationTempsMoyenConsommation :" + deviationTempsMoyenConsommation);
@@ -114,27 +130,37 @@ public class TestProdCons extends Simulateur {
 		System.out.println("nombreMoyenNbExemplaire :" + nombreMoyenNbExemplaire);
 		System.out.println("deviationNombreMoyenNbExemplaire :" + deviationNombreMoyenNbExemplaire);
 	}
-	
+
+	/**
+	 * Méthode qui permet de maintenir le thread en vie tant que la condition de
+	 * fin n'est pas atteinte.
+	 */
 	private synchronized void end() {
 		int nbC = 0;
-		while(nbC < nbMsg) {
+		while (nbC < nbMsg) {
 			nbC = 0;
-			
-//			try {
-//				System.out.println(" nbC " + nbC + ", nbM " + nbMsg);
-//				wait();
-//
-//			} catch (InterruptedException e) {
-//				System.out.println(e.toString());
-//			}
 
-			for(int i=0; i<Cons.length; i++)
+			// try {
+			// System.out.println(" nbC " + nbC + ", nbM " + nbMsg);
+			// wait();
+			//
+			// } catch (InterruptedException e) {
+			// System.out.println(e.toString());
+			// }
+
+			for (int i = 0; i < Cons.length; i++)
 				nbC += Cons[i].nombreDeMessages();
-			
+
 		}
-		
+
 	}
 
+	/**
+	 * Fonction principale
+	 * 
+	 * @param args
+	 *            Arguments du programme
+	 */
 	public static void main(String[] args) {
 		new TestProdCons(new Observateur()).start();
 	}

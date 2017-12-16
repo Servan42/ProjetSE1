@@ -93,10 +93,20 @@ public class MessageX implements Message {
 		return nbRemain <= 0;
 	}
 	
+	/**
+	 * Getter de id
+	 * 
+	 * @return Identifiant du Producteur
+	 */
 	public int getId() {
 		return id;
 	}
-	
+
+	/**
+	 * Getter de nb
+	 * 
+	 * @return Le numero du message
+	 */
 	public int getNb() {
 		return nb;
 	}
