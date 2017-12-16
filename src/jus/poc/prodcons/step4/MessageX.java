@@ -7,17 +7,19 @@ import jus.poc.prodcons.Message;
 public class MessageX implements Message {
 	int id;
 	int nb;
-	int nbExmplr;
+	int nbExmplrMax;
+	int nbRemain;
 	long Tput;
 	
 	public MessageX(int id, int nb, int nbExmplr) {
 		this.id = id;
 		this.nb = nb;
-		this.nbExmplr = nbExmplr;
+		this.nbExmplrMax = nbExmplr;
+		this.nbRemain = nbExmplr;
 	}
 	
 	public String toString() {
-		return "Message " + nb + " from producteur " + id + " at time " + Tput + "\n\t" + nbExmplr + " remaining";
+		return "Message " + nb + " from producteur " + id + " at time " + Tput + "\n\t" + nbRemain + " remaining";
 	}
 	
 	public void setTime() {
@@ -29,14 +31,14 @@ public class MessageX implements Message {
 	}
 	
 	public void conso() {
-		nbExmplr--;
+		nbRemain--;
 	}
 	
-	public int Exmeplaires() {
-		return nbExmplr;
+	public int Exemplaires() {
+		return nbExmplrMax;
 	}
 	
 	public boolean estVide() {
-		return nbExmplr <= 0;
+		return nbRemain <= 0;
 	}
 }

@@ -68,6 +68,10 @@ public class ProdCons implements Tampon {
 			notifyAll();
 		}
 		get.release();
+		synchronized(this) {
+			while(buffer[minId] != null)
+				wait();
+		}
 		return retour;
 	}
 

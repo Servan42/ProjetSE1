@@ -57,7 +57,11 @@ public class Producteur extends Acteur implements _Producteur {
 	 * @return Nombre de messages que le producteur doit produire (invariable)
 	 */
 	public int nombreDeMessages() {
-		return NbMessages;
+		int total = 0;
+		for(int i = 0; i<NbMessages; i++)
+			total += Messages[i].Exemplaires();
+		
+		return total;
 	}
 
 	@Override
