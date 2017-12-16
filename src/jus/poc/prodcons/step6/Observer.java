@@ -45,6 +45,7 @@ public class Observer {
 	 * @param nbBuffers
 	 *            la taille du buffer qui sera utilise
 	 * @throws Exception
+	 *             si l'une des donnees est negative ou nulle
 	 */
 	void init(int nbproducteurs, int nbconsommateurs, int nbBuffers) throws Exception {
 		coherent = nbproducteurs > 0 && nbconsommateurs > 0 && nbBuffers > 0;
@@ -61,6 +62,9 @@ public class Observer {
 	 * @param c
 	 *            le consommateur cree
 	 * @throws Exception
+	 *             si le consommateur a deja ete renseigne a l'observer
+	 * @throws Exception
+	 *             si trop de consommateurs sont crees
 	 */
 	void newConsommateur(_Consommateur c) throws Exception {
 		if (retraits.containsKey(c))
@@ -79,6 +83,9 @@ public class Observer {
 	 * @param p
 	 *            le producteur cree
 	 * @throws Exception
+	 *             si le producteur a deja ete renseigne a l'observer
+	 * @throws Exception
+	 *             si trop de producteurs sont crees
 	 */
 	void newProducteur(_Producteur p) throws Exception {
 		if (prods.containsKey(p))
@@ -103,6 +110,10 @@ public class Observer {
 	 * @param tempsDeTraitement
 	 *            le temps de traitement necessaire a la consommation de m par c
 	 * @throws Exception
+	 *             si le consommateur n'est pas connu de l'observer
+	 * @throws Exception
+	 *             si le temps depuis le dernier retrait de ce consommateur est
+	 *             inferieur au temps de consommation du message retire
 	 */
 	void consommationMessage(_Consommateur c, MessageX m, int tempsDeTraitement) throws Exception {
 		long t = new Date().getTime();
@@ -121,6 +132,12 @@ public class Observer {
 	 * @param m
 	 *            le message concerne
 	 * @throws Exception
+	 *             si le producteur n'est pas connu de l'observer
+	 * @throws Exception
+	 *             si le producteur n'est pas le createur du message
+	 * @throws Exception
+	 *             si le producteur ne place pas les messages dans le bon ordre (ce
+	 *             message n'est pas le suivant du dernier place par p
 	 */
 	void depotMessage(_Producteur p, MessageX m) throws Exception {
 		if (!prods.containsKey(p))
@@ -147,6 +164,12 @@ public class Observer {
 	 * @param tempsDeTraitement
 	 *            le temps de traitement necessaire a la production de m par p
 	 * @throws Exception
+	 *             si le producteur n'est pas connu de l'observer
+	 * @throws Exception
+	 *             si le message n'est pas cense avoir ete produit par p
+	 * @throws Exception
+	 *             si le temps depuis le dernier depot de ce producteur est
+	 *             inferieur au temps de production de m
 	 */
 	void productionMessage(_Producteur p, MessageX m, int tempsDeTraitement) throws Exception {
 		long t = new Date().getTime();
@@ -168,6 +191,10 @@ public class Observer {
 	 * @param m
 	 *            le message concerne
 	 * @throws Exception
+	 *             si le consommateur n'est pas connu de l'observer
+	 * @throws Exception
+	 *             si les messages ne sont pas retires dans l'ordre (le message
+	 *             retire a ete place avant le dernier message deja retire)
 	 */
 	void retraitMessage(_Consommateur c, MessageX m) throws Exception {
 		if (!retraits.containsKey(c))
@@ -183,7 +210,7 @@ public class Observer {
 	 * indicateur de coherence du controle le controle est coherent s'il a ete
 	 * correctement initialise
 	 * 
-	 * @return
+	 * @return l'initialisation est coherente
 	 */
 	boolean coherent() {
 		return coherent;
