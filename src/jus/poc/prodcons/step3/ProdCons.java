@@ -6,6 +6,7 @@ import jus.poc.prodcons.Message;
 import jus.poc.prodcons.Tampon;
 import jus.poc.prodcons._Consommateur;
 import jus.poc.prodcons._Producteur;
+import jus.poc.prodcons.step3.MessageX;
 
 /**
  * Tableau de garde-action 
@@ -43,8 +44,8 @@ public class ProdCons implements Tampon {
 	@Override
 	public Message get(_Consommateur arg0) throws Exception, InterruptedException {
 		get.acquire();
-		long maxTime = 0;
-		int maxId = 0;
+		long minTime = Long.MAX_VALUE;
+		int minId = 0;
 		MessageX retour;
 		synchronized(this) {
 			while (!(enAttente() > 0)) {
@@ -55,13 +56,13 @@ public class ProdCons implements Tampon {
 				}
 			}
 			for(int i = 0; i < buffSize; i++){
-				if(buffer[i].getTime() > maxTime){
-					maxTime = buffer[i].getTime();
-					maxId = i;
+				if(buffer[i] != null && buffer[i].getTime() < minTime){
+					minTime = buffer[i].getTime();
+					minId = i;
 				}
 			}
-			retour = buffer[maxId];
-			buffer[maxId] = null;
+			retour = buffer[minId];
+			buffer[minId] = null;
 			notifyAll();
 		}
 		get.release();
