@@ -2,6 +2,7 @@ package jus.poc.prodcons.step1;
 
 import jus.poc.prodcons.Acteur;
 import jus.poc.prodcons.ControlException;
+import jus.poc.prodcons.Message;
 import jus.poc.prodcons.Observateur;
 import jus.poc.prodcons._Consommateur;
 
@@ -14,6 +15,7 @@ import jus.poc.prodcons._Consommateur;
 public class Consommateur extends Acteur implements _Consommateur {
 	private int nbMsgLus = 0;
 	private ProdCons tampon;
+	private Message messageRetire;
 
 	/**
 	 * Constructeur de Consommateur
@@ -73,7 +75,7 @@ public class Consommateur extends Acteur implements _Consommateur {
 	public void run() {
 		while (true) {
 			try {
-				System.out.println("Consommateur " + identification() + " lis {" + tampon.get(this).toString() + "}");
+				messageRetire = tampon.get(this);
 			} catch (Exception e) {
 				System.out.println("Consommateur " + identification() + " " + e.toString());
 			}

@@ -78,7 +78,6 @@ public class Consommateur extends Acteur implements _Consommateur {
 			try {
 				messageRetire = tampon.get(this);
 				observateur.retraitMessage(this, messageRetire);
-				System.out.println("Consommateur " + identification() + " lis {" + messageRetire.toString() + "}");
 			} catch (Exception e) {
 				System.out.println("Consommateur " + identification() + " " + e.toString());
 			}
