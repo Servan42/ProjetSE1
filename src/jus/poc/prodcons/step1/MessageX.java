@@ -25,4 +25,12 @@ public class MessageX implements Message {
 	public long getTime() {
 		return Tput;
 	}
+	
+	public int getId() {
+		return id;
+	}
+	
+	public int getNb() {
+		return nb;
+	}
 }

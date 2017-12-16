@@ -27,10 +27,11 @@ public class TestProdCons extends Simulateur {
 	Producteur Prod[];
 	Consommateur Cons[];
 	int nbConsommes = 0;
+	Observer obs;
 	
-	public TestProdCons(Observateur observateur) {
+	public TestProdCons(Observateur observateur, Observer obs) {
 		super(observateur);
-		
+		this.obs = obs;
 	}
 
 	/**
@@ -39,7 +40,7 @@ public class TestProdCons extends Simulateur {
 	protected void run() throws Exception {
 		String filename = "option.xml";
 		init("jus/poc/prodcons/option/" + filename);
-		observateur.init(nbProd,nbCons,nbBuffer);
+		obs.init(nbProd,nbCons,nbBuffer);
 		
 		tampon = new ProdCons(nbBuffer);
 		Prod = new Producteur[nbProd];
@@ -47,14 +48,14 @@ public class TestProdCons extends Simulateur {
 
 		for(int i=0; i<Math.max(nbProd, nbCons); i++) {
 			if(i < nbProd) {
-				Prod[i] = new Producteur(tampon, observateur, tempsMoyenProduction, deviationTempsMoyenProduction, nombreMoyenDeProduction, deviationNombreMoyenDeProduction);
-				observateur.newProducteur(Prod[i]);
+				Prod[i] = new Producteur(tampon, observateur, tempsMoyenProduction, deviationTempsMoyenProduction, nombreMoyenDeProduction, deviationNombreMoyenDeProduction, obs);
+				obs.newProducteur(Prod[i]);
 				nbMsg += Prod[i].nombreDeMessages();
 				Prod[i].start();
 			}
 			if(i < nbCons) {
-				Cons[i] = new Consommateur(tampon, observateur, tempsMoyenConsommation, deviationTempsMoyenConsommation);
-				observateur.newConsommateur(Cons[i]);
+				Cons[i] = new Consommateur(tampon, observateur, tempsMoyenConsommation, deviationTempsMoyenConsommation, obs);
+				obs.newConsommateur(Cons[i]);
 				Cons[i].start();
 			}
 		}
@@ -136,6 +137,6 @@ public class TestProdCons extends Simulateur {
 	}
 
 	public static void main(String[] args) {
-		new TestProdCons(new Observateur()).start();
+		new TestProdCons(new Observateur(), new Observer()).start();
 	}
 }

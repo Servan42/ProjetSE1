@@ -11,6 +11,7 @@ public class Consommateur extends Acteur implements _Consommateur {
 	private ProdCons tampon;
 	private Message messageRetire;
 	private double productionDelay;
+	Observer observateur;
 	
 	protected Consommateur(int type, Observateur observateur, int moyenneTempsDeTraitement,
 			int deviationTempsDeTraitement) throws ControlException {
@@ -20,10 +21,11 @@ public class Consommateur extends Acteur implements _Consommateur {
 	}
 	
 	protected Consommateur(ProdCons tampon, Observateur observateur, int moyenneTempsDeTraitement,
-			int deviationTempsDeTraitement) throws ControlException {
+			int deviationTempsDeTraitement, Observer obs) throws ControlException {
 		super(Acteur.typeConsommateur, observateur, moyenneTempsDeTraitement, deviationTempsDeTraitement);
 		this.tampon = tampon;
 		this.setDaemon(true);
+		this.observateur = obs;
 	}
 
 	@Override
@@ -36,7 +38,7 @@ public class Consommateur extends Acteur implements _Consommateur {
 		while(true) {
 			try {
 				messageRetire = tampon.get(this);
-				observateur.retraitMessage(this, messageRetire);
+				observateur.retraitMessage(this, (MessageX)messageRetire);
 				System.out.println("Consommateur " + identification() + " lis {" + messageRetire.toString()+"}");
 			} catch(Exception e) {
 				System.out.println("Consommateur " + identification() + " " + e.toString());
@@ -45,7 +47,7 @@ public class Consommateur extends Acteur implements _Consommateur {
 			try {
 				productionDelay = moyenneTempsDeTraitement - deviationTempsDeTraitement + Math.random()*(2*deviationTempsDeTraitement+1);
 				sleep((long) productionDelay);
-				observateur.consommationMessage(this, messageRetire, (int) productionDelay);
+				observateur.consommationMessage(this, (MessageX)messageRetire, (int) productionDelay);
 			} catch (Exception e) {
 				System.out.println(e.toString());
 			}

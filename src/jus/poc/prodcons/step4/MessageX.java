@@ -41,4 +41,12 @@ public class MessageX implements Message {
 	public boolean estVide() {
 		return nbRemain <= 0;
 	}
+	
+	public int getId() {
+		return id;
+	}
+	
+	public int getNb() {
+		return nb;
+	}
 }
