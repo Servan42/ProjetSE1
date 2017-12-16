@@ -8,7 +8,7 @@ import jus.poc.prodcons.Message;
  * Classe contenant les inforamtions relatives au message produit par un
  * producteur, et son format de sortie.
  * 
- * @author CHARLOT CHANET
+ * @author CHANET CHARLOT
  *
  */
 public class MessageX implements Message {
