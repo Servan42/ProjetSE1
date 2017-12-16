@@ -2,12 +2,13 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <comment>
-Cette configuration teste un grand nombre de consommateurs pour un seul producteur et un buffer d'une place.
-Cela permet de verifier le blocage des consommateurs en cas de buffer vide.
+Cette configuration teste un buffer de plus grande taille et un nombre de producteurs superieur au nombre de consommateurs.
+Cela permet de verifier l'ordre de lecture des messages (cense etre fifo) lorsque le buffer n'est pas obligatoirement ordonne.
+(les producteurs vont stocker des messages dans l'ordre, puis lorsque l'un des messages aura ete retire, il sera remplace par un message plus recent que le reste du buffer, mais a un indice plus faible)
 </comment>
-<entry key="nbProd">1</entry>
-<entry key="nbCons">10</entry>
-<entry key="nbBuffer">1</entry>
+<entry key="nbProd">10</entry>
+<entry key="nbCons">1</entry>
+<entry key="nbBuffer">10</entry>
 <entry key="tempsMoyenProduction">10</entry>
 <entry key="deviationTempsMoyenProduction">1</entry>
 <entry key="tempsMoyenConsommation">10</entry>

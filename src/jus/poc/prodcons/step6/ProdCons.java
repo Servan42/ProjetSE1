@@ -61,6 +61,7 @@ public class ProdCons implements Tampon {
 				}
 			}
 			retour = buffer[minId];
+			System.out.println("Consommateur " + arg0.identification() + " lis {" + retour.toString()+"}");
 			buffer[minId] = null;
 			notifyAll();
 		}

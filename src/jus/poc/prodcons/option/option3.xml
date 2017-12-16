@@ -2,10 +2,10 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 <comment>
-Cette configuration teste un grand nombre de consommateurs pour un seul producteur et un buffer d'une place.
-Cela permet de verifier le blocage des consommateurs en cas de buffer vide.
+Cette configuration teste un grand nombre de producteurs pour un buffer d'une seule place.
+Cela permet de verifier le blocage de producteurs en cas de buffer plein.
 </comment>
-<entry key="nbProd">1</entry>
+<entry key="nbProd">10</entry>
 <entry key="nbCons">10</entry>
 <entry key="nbBuffer">1</entry>
 <entry key="tempsMoyenProduction">10</entry>

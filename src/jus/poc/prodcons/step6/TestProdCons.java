@@ -38,7 +38,7 @@ public class TestProdCons extends Simulateur {
 	 * Corps du programme principal
 	 */
 	protected void run() throws Exception {
-		String filename = "option.xml";
+		String filename = "option4.xml";
 		init("jus/poc/prodcons/option/" + filename);
 		obs.init(nbProd,nbCons,nbBuffer);
 		
