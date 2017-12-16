@@ -38,7 +38,7 @@ public class Consommateur extends Acteur implements _Consommateur {
 			}
 			
 			try {
-				sleep((long)(moyenneTempsDeTraitement - deviationTempsDeTraitement + 1 + Math.random()*2*deviationTempsDeTraitement));
+				sleep((long)(moyenneTempsDeTraitement - deviationTempsDeTraitement + Math.random()*(2*deviationTempsDeTraitement+1)));
 			} catch (Exception e) {
 				System.out.println(e.toString());
 			}

@@ -15,7 +15,7 @@ public class Producteur extends Acteur implements _Producteur {
 	protected Producteur(int type, Observateur observateur, int moyenneTempsDeTraitement,
 			int deviationTempsDeTraitement) throws ControlException {
 		super(type, observateur, moyenneTempsDeTraitement, deviationTempsDeTraitement);
-		NbMessages = (int) Math.random() * 10 + 11;
+		NbMessages = (int) Math.random() * 11 + 10;
 		Messages = new MessageX[NbMessages];
 		initMessages(Messages);
 		System.out.println("L'ancien constructeur de Producteur à été utilisé");
@@ -25,7 +25,7 @@ public class Producteur extends Acteur implements _Producteur {
 			int deviationTempsDeTraitement, int nbMoyenProduction, int deviationNbMoyenProduction) throws ControlException {
 		super(Acteur.typeProducteur, observateur, moyenneTempsDeTraitement, deviationTempsDeTraitement);
 		this.tampon = tampon;
-		NbMessages = (int)(nbMoyenProduction - deviationNbMoyenProduction +1 +Math.random()*2*deviationNbMoyenProduction);
+		NbMessages = (int)(nbMoyenProduction - deviationNbMoyenProduction + Math.random()*(2*deviationNbMoyenProduction+1));
 		Messages = new MessageX[NbMessages];
 		initMessages(Messages);
 	}
@@ -58,7 +58,7 @@ public class Producteur extends Acteur implements _Producteur {
 		for (int i = 0; i < NbMessages; i++) {
 			try {
 				System.out.println("Producteur " + identification() + " production message " + (i+1));
-				sleep((long) (moyenneTempsDeTraitement - deviationTempsDeTraitement + 1 + Math.random()*2*deviationTempsDeTraitement));
+				sleep((long) (moyenneTempsDeTraitement - deviationTempsDeTraitement + Math.random()*(2*deviationTempsDeTraitement)+1));
 			} catch (InterruptedException e) {
 				System.out.println(e.toString());
 			}
