@@ -61,7 +61,10 @@ public class ProdCons implements Tampon {
 				}
 			}
 			retour = buffer[maxId];
-			buffer[maxId] = null;
+			buffer[maxId].conso();
+			if(buffer[maxId].estVide()){
+				buffer[maxId] = null;
+			}
 			notifyAll();
 		}
 		get.release();
