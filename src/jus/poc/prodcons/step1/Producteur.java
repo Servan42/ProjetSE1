@@ -5,13 +5,32 @@ import jus.poc.prodcons.ControlException;
 import jus.poc.prodcons.Observateur;
 import jus.poc.prodcons._Producteur;
 
+/**
+ * Classe permettant la gestion des Producteurs.
+ * 
+ * @author CHANET CHARLOT
+ *
+ */
 public class Producteur extends Acteur implements _Producteur {
 
 	private int NbMessages;
 	private MessageX[] Messages;
 	private ProdCons tampon;
-	
 
+	/**
+	 * Constructeur de Producteur
+	 * @param type
+	 *            Entier indiquant di on utilise un producteur ou un
+	 *            consommateur
+	 * @param observateur
+	 *            Observateur du programme
+	 * @param moyenneTempsDeTraitement
+	 *            Valeur du champ du même nom dans le fichier XML de test.
+	 * @param deviationTempsDeTraitement
+	 *            Valeur du champ du même nom dans le fichier XML de test.
+	 * @throws ControlException
+	 * @deprecated
+	 */
 	protected Producteur(int type, Observateur observateur, int moyenneTempsDeTraitement,
 			int deviationTempsDeTraitement) throws ControlException {
 		super(type, observateur, moyenneTempsDeTraitement, deviationTempsDeTraitement);
@@ -20,12 +39,31 @@ public class Producteur extends Acteur implements _Producteur {
 		initMessages(Messages);
 		System.out.println("L'ancien constructeur de Producteur à été utilisé");
 	}
-	
+
+	/**
+	 * Constructeur de Producteur
+	 * 
+	 * @param tampon
+	 *            Buffer dans lequel le producteur doit poser ses messages.
+	 * @param observateur
+	 *            Observateur du programme
+	 * @param moyenneTempsDeTraitement
+	 *            Valeur du champ du même nom dans le fichier XML de test.
+	 * @param deviationTempsDeTraitement
+	 *            Valeur du champ du même nom dans le fichier XML de test.
+	 * @param nbMoyenProduction
+	 *            Valeur du champ du même nom dans le fichier XML de test.
+	 * @param deviationNbMoyenProduction
+	 *            Valeur du champ du même nom dans le fichier XML de test.
+	 * @throws ControlException
+	 */
 	protected Producteur(ProdCons tampon, Observateur observateur, int moyenneTempsDeTraitement,
-			int deviationTempsDeTraitement, int nbMoyenProduction, int deviationNbMoyenProduction) throws ControlException {
+			int deviationTempsDeTraitement, int nbMoyenProduction, int deviationNbMoyenProduction)
+			throws ControlException {
 		super(Acteur.typeProducteur, observateur, moyenneTempsDeTraitement, deviationTempsDeTraitement);
 		this.tampon = tampon;
-		NbMessages = (int)(nbMoyenProduction - deviationNbMoyenProduction + Math.random()*(2*deviationNbMoyenProduction+1));
+		NbMessages = (int) (nbMoyenProduction - deviationNbMoyenProduction
+				+ Math.random() * (2 * deviationNbMoyenProduction + 1));
 		Messages = new MessageX[NbMessages];
 		initMessages(Messages);
 	}
@@ -34,16 +72,15 @@ public class Producteur extends Acteur implements _Producteur {
 	 * Initialise les messages qui seront envoyés par le producteur.
 	 * 
 	 * @param Messages
-	 *            Le tableau de chaines de caractères qui contiendra les messages à
-	 *            l'issu de la méthode.
+	 *            Le tableau de chaines de caractères qui contiendra les
+	 *            messages à l'issu de la méthode.
 	 */
 	private void initMessages(MessageX[] Messages) {
 		for (int i = 0; i < NbMessages; i++) {
-			Messages[i] = new MessageX(identification(), i+1);
+			Messages[i] = new MessageX(identification(), i + 1);
 		}
 	}
 
-	@Override
 	/**
 	 * Renvoie le nombre de messages à traiter.
 	 * 
@@ -53,16 +90,20 @@ public class Producteur extends Acteur implements _Producteur {
 		return NbMessages;
 	}
 
-	@Override
+	/**
+	 * Methode qui permet au Producteur d'attendre son temps de production et de
+	 * poser le(s) message(s) dans le tampon
+	 */
 	public void run() {
 		for (int i = 0; i < NbMessages; i++) {
 			try {
-				System.out.println("Producteur " + identification() + " production message " + (i+1));
-				sleep((long) (moyenneTempsDeTraitement - deviationTempsDeTraitement + Math.random()*(2*deviationTempsDeTraitement)+1));
+				System.out.println("Producteur " + identification() + " production message " + (i + 1));
+				sleep((long) (moyenneTempsDeTraitement - deviationTempsDeTraitement
+						+ Math.random() * (2 * deviationTempsDeTraitement) + 1));
 			} catch (InterruptedException e) {
 				System.out.println(e.toString());
 			}
-			
+
 			try {
 				tampon.put(this, Messages[i]);
 			} catch (InterruptedException e) {
