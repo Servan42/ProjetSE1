@@ -1,14 +1,12 @@
-package jus.poc.prodcons.step5;
+package jus.poc.prodcons.step6;
 
 import java.util.concurrent.Semaphore;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 import jus.poc.prodcons.Message;
 import jus.poc.prodcons.Tampon;
 import jus.poc.prodcons._Consommateur;
 import jus.poc.prodcons._Producteur;
+import jus.poc.prodcons.step3.MessageX;
 
 /**
  * Tableau de garde-action 
@@ -22,9 +20,6 @@ public class ProdCons implements Tampon {
 	
 	private Semaphore put = new Semaphore(1);
 	private Semaphore get= new Semaphore(1);
-    final Lock lock = new ReentrantLock();
-    final Condition notFull  = lock.newCondition(); 
-    final Condition notEmpty = lock.newCondition(); 
 	private int buffSize;
 	private MessageX[] buffer;
 	
@@ -48,14 +43,14 @@ public class ProdCons implements Tampon {
 
 	@Override
 	public Message get(_Consommateur arg0) throws Exception, InterruptedException {
+		get.acquire();
 		long minTime = Long.MAX_VALUE;
 		int minId = 0;
 		MessageX retour;
-		lock.lock();
-		try{
+		synchronized(this) {
 			while (!(enAttente() > 0)) {
 				try {
-					notEmpty.await();
+					wait();
 				} catch (Exception e) {
 					System.out.println("Fonction get " + e.toString() + " consommateur " + arg0.identification());
 				}
@@ -68,36 +63,34 @@ public class ProdCons implements Tampon {
 			}
 			retour = buffer[minId];
 			buffer[minId] = null;
-			notFull.signal();
-		} finally {
-			lock.unlock();
+			notifyAll();
 		}
+		get.release();
 		return retour;
 	}
 
 	@Override
 	public void put(_Producteur arg0, Message arg1) throws Exception, InterruptedException {
+		put.acquire();
 		int i = 0;
-		lock.lock();
-		try {
-				while(!(enAttente() < buffSize)) 
-					try{
-						notFull.await();
-					} catch(Exception e) {
-						System.out.println("Fonction put " + e.toString() + " producteur " + arg0.identification());
-					}
-					
-				while(i<buffSize && buffer[i] != null) i++;
-					
-				if(i<buffSize) { 
-					((MessageX)arg1).setTime();
-					System.out.println(arg1.toString());
-					buffer[i] = (MessageX)arg1;
-				} else throw new Exception("Tentative de put buffer plein");
-				notEmpty.signal();
-		} finally {
-			lock.unlock();
+		synchronized(this) {
+			while(!(enAttente() < buffSize)) 
+				try{
+					wait();
+				} catch(Exception e) {
+					System.out.println("Fonction put " + e.toString() + " producteur " + arg0.identification());
+				}
+				
+			while(i<buffSize && buffer[i] != null) i++;
+				
+			if(i<buffSize) { 
+				((MessageX)arg1).setTime();
+				System.out.println(arg1.toString());
+				buffer[i] = (MessageX)arg1;
+			} else throw new Exception("Tentative de put buffer plein");
+			notifyAll();
 		}
+		put.release();
 	}
 
 	@Override
