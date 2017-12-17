@@ -8,7 +8,7 @@ import jus.poc.prodcons._Producteur;
 
 /**
  * 
- * @authors CHANET CHARLOT
+ * @author CHANET CHARLOT
  *
  *          L'Observer permet d'analyser l'ensemble des evenements pertinents
  *          dans le systeme Producteur/consommateur. Ces evenements sont :
