@@ -7,13 +7,13 @@ import jus.poc.prodcons._Consommateur;
 import jus.poc.prodcons._Producteur;
 
 /**
+ * L'Observer permet d'analyser l'ensemble des evenements pertinents dans le
+ * systeme Producteur/consommateur. Ces evenements sont : depotMessage
+ * retraitMessage productionMessage consommationMessage newProducteur
+ * newConsommateur
  * 
  * @author CHANET CHARLOT
  *
- *          L'Observer permet d'analyser l'ensemble des evenements pertinents
- *          dans le systeme Producteur/consommateur. Ces evenements sont :
- *          depotMessage retraitMessage productionMessage consommationMessage
- *          newProducteur newConsommateur
  */
 public class Observer {
 
@@ -136,8 +136,8 @@ public class Observer {
 	 * @throws Exception
 	 *             si le producteur n'est pas le createur du message
 	 * @throws Exception
-	 *             si le producteur ne place pas les messages dans le bon ordre (ce
-	 *             message n'est pas le suivant du dernier place par p
+	 *             si le producteur ne place pas les messages dans le bon ordre
+	 *             (ce message n'est pas le suivant du dernier place par p
 	 */
 	void depotMessage(_Producteur p, MessageX m) throws Exception {
 		if (!prods.containsKey(p))
