@@ -87,7 +87,7 @@ public class Consommateur extends Acteur implements _Consommateur {
 	}
 
 	/**
-	 * Methode qui permet au Consommateur de reccuperer le message dans le
+	 * Methode qui permet au Consommateur de recuperer le message dans le
 	 * tampon, et d'attendre son temps de production.
 	 */
 	public void run() {
