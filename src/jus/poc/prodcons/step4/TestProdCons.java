@@ -51,7 +51,7 @@ public class TestProdCons extends Simulateur {
 	 * Producteurs et Consommateurs, puis test la condition de fin.
 	 */
 	protected void run() throws Exception {
-		String filename = "option6.xml";
+		String filename = "option5.xml";
 		init("jus/poc/prodcons/option/" + filename);
 
 		if (nombreMoyenNbExemplaire + deviationNombreMoyenNbExemplaire > nbCons) {
