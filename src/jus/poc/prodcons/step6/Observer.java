@@ -13,7 +13,6 @@ import jus.poc.prodcons._Producteur;
  * newConsommateur
  * 
  * @author CHANET CHARLOT
- *
  */
 public class Observer {
 
