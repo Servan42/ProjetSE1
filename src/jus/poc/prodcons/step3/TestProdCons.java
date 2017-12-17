@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import jus.poc.prodcons.Observateur;
 import jus.poc.prodcons.Simulateur;
@@ -17,6 +20,9 @@ import jus.poc.prodcons.Simulateur;
  */
 public class TestProdCons extends Simulateur {
 
+	private Lock lock;
+	private Condition notEnd;
+	
 	int nbProd;
 	int nbCons;
 	int nbBuffer;
@@ -43,7 +49,8 @@ public class TestProdCons extends Simulateur {
 	 */
 	public TestProdCons(Observateur observateur) {
 		super(observateur);
-
+		lock = new ReentrantLock();
+		notEnd = lock.newCondition();
 	}
 
 	/**
@@ -69,7 +76,7 @@ public class TestProdCons extends Simulateur {
 			}
 			if (i < nbCons) {
 				Cons[i] = new Consommateur(tampon, observateur, tempsMoyenConsommation,
-						deviationTempsMoyenConsommation);
+						deviationTempsMoyenConsommation, lock, notEnd);
 				observateur.newConsommateur(Cons[i]);
 				Cons[i].start();
 			}
@@ -135,24 +142,25 @@ public class TestProdCons extends Simulateur {
 	 * Méthode qui permet de maintenir le thread en vie tant que la condition de
 	 * fin n'est pas atteinte.
 	 */
-	private synchronized void end() {
+	private void end() {
 		int nbC = 0;
-		while (nbC < nbMsg) {
-			nbC = 0;
-
-			// try {
-			// System.out.println(" nbC " + nbC + ", nbM " + nbMsg);
-			// wait();
-			//
-			// } catch (InterruptedException e) {
-			// System.out.println(e.toString());
-			// }
-
-			for (int i = 0; i < Cons.length; i++)
-				nbC += Cons[i].nombreDeMessages();
-
+		for (int i = 0; i < Cons.length; i++)
+			nbC += Cons[i].nombreDeMessages();
+		lock.lock();
+		try {
+			while (nbC < nbMsg) {
+				try{
+					notEnd.await();
+				} catch(Exception e) {
+					System.out.println(e.toString());
+				}
+				nbC = 0;
+				for (int i = 0; i < Cons.length; i++)
+					nbC += Cons[i].nombreDeMessages();
+			}
+		} finally {
+			lock.unlock();
 		}
-
 	}
 
 	/**

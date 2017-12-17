@@ -1,5 +1,8 @@
 package jus.poc.prodcons.step6;
 
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+
 import jus.poc.prodcons.Acteur;
 import jus.poc.prodcons.ControlException;
 import jus.poc.prodcons.Observateur;
@@ -13,6 +16,9 @@ import jus.poc.prodcons.Message;
  *
  */
 public class Consommateur extends Acteur implements _Consommateur {
+	private Lock lock;
+	private Condition notEnd;
+	
 	private int nbMsgLus = 0;
 	private ProdCons tampon;
 	private Message messageRetire;
@@ -54,14 +60,21 @@ public class Consommateur extends Acteur implements _Consommateur {
 	 *            Valeur du champ du même nom dans le fichier XML de test.
 	 * @param obs
 	 *            Observateur reel
+	 * @param lock
+	 *            le Lock utilise pour l'attente passive de TestProdCons
+	 * @param notEnd
+	 *            la Condition permettant de reveiller le thread de TestProdCons
+	 *            apres consommation d'un message
 	 * @throws ControlException
 	 */
 	protected Consommateur(ProdCons tampon, Observateur observateur, int moyenneTempsDeTraitement,
-			int deviationTempsDeTraitement, Observer obs) throws ControlException {
+			int deviationTempsDeTraitement, Observer obs, Lock lock, Condition notEnd) throws ControlException {
 		super(Acteur.typeConsommateur, observateur, moyenneTempsDeTraitement, deviationTempsDeTraitement);
 		this.tampon = tampon;
 		this.setDaemon(true);
 		this.observateur = obs;
+		this.lock = lock;
+		this.notEnd = notEnd;
 	}
 
 	/**
@@ -96,10 +109,12 @@ public class Consommateur extends Acteur implements _Consommateur {
 			}
 			System.out.println("Consommateur " + identification() + " fin consommation");
 			nbMsgLus++;
-			// synchronized(this) {
-			// System.out.println("POOOOOOOOOOOOOOOOOO");
-			// notifyAll();
-			// }
+			lock.lock();
+			try {
+				notEnd.signal();
+			} finally {
+				lock.unlock();
+			}
 		}
 	}
 }
